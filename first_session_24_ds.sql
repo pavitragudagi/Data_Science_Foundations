@@ -112,8 +112,21 @@ INSERT INTO payments (type, amount) VALUES
 -- View table data
 SELECT * FROM payments;
 
+--  find the average amount for each payment type, print it in descending order. print first column name as "payment" and for  second "Average"
 
--- Use condition to get the output
+SELECT type, round(AVG(amount), 2) AS average_amount FROM payments
+GROUP BY type
+ORDER BY average_amount DESC;
+
+-- print the least amount from each department 
+
+select payment_type as payment, MIN(amount)as Highest from payments
+group by payment_type
+order by Average desc;
+
+
+
+Use condition to get the output
 select * from  students
 where marks > 77;
 
@@ -153,6 +166,54 @@ limit 3;
 
 
 -- =====================third_session_feb_28========================
+
+use feb_batch1;
+show tables;
+
+select * from employee;
+select * from students;
+
+-- ques: Calculate the salary for each department
+
+select department, sum(salary) from employee
+group by department 
+order by sum(salary) desc;
+
+-- ques: Calculate the salary for HR  department where 
+
+select department, sum(salary) from employee
+where department = "HR"
+group by department  
+order by sum(salary) desc;
+
+-- count the students whose marks are more than 75.alter
+
+select count(*) from students
+where marks > 75;
+
+-- print the least amount from each department 
+
+select payment_type as payment, MIN(amount)as Highest from payments
+group by payment_type
+order by Average desc;
+
+-- print all the students whose name start with "s".alter
+select s_name from students
+where s_name Like "s%"; 
+
+-- print all the students whose name start with "S" and end with "a".
+
+select s_name from students
+where s_name Like "s%a"; 
+
+select s_name from students
+where s_name Like "%a";
+
+-- print all the students whose name contain "a" as second charecter
+
+select s_name from students
+where s_name Like "_a%" 
+
 
 
 
