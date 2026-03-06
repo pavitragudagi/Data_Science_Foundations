@@ -1,6 +1,6 @@
 --  ======================================= Create a database ==================================
 
-create database feb_batch1; 
+create database feb_batch; 
 
 -- ======================================== Drop a database======================================
 
@@ -12,7 +12,7 @@ show databases;
 
 --  ========================================= To enter into a database =============================
 
-use feb_batch1;
+use feb_batch;
 
   -- ======================================== How to create a table =================================
   create table students (
@@ -27,7 +27,7 @@ show tables;
 
 
 -- ================================================== employee table ======================================
-create table employee (
+create table employee(
 emp_id int primary key,
 name varchar(100),
 department varchar(100),
@@ -124,8 +124,6 @@ select payment_type as payment, MIN(amount)as Highest from payments
 group by payment_type
 order by Average desc;
 
-
-
 Use condition to get the output
 select * from  students
 where marks > 77;
@@ -145,6 +143,17 @@ select * from employee
 where department  = "IT" and salary > 50000; 
 
 -- how to sort the output ascending or descending order.
+select * from students
+order by marks; 
+ 
+select * from students
+order by marks desc;
+
+select * from employee 
+order by salary; 
+
+select * from employee 
+order by salary desc;
 
 select * from students
 order by marks asc;
@@ -152,22 +161,16 @@ order by marks asc;
 select * from students
 order by marks desc;
 
-select * from employee
-order by salary;
-
-select * from employee
-order by salary desc;
-
 -- How to print limited rows like top 3, top 2, etc
 
-select * from students
+select  s_name, marks from students
 order by marks desc
 limit 3; 
 
 
 -- =====================third_session_feb_28========================
 
-use feb_batch1;
+use feb_batch;
 show tables;
 
 select * from employee;
@@ -191,28 +194,140 @@ order by sum(salary) desc;
 select count(*) from students
 where marks > 75;
 
+-- Practice Question: Create a "payments" table having includes (payment_id, type, amount )
+-- Type, ["Cash", "UPI"] amount:[between 50000 and 100000]
+ -- Insert data into "payments" table. (5 Rows)  
+
+create table payments (
+payment_id int primary key,
+payment_type varchar(100),
+amount int 
+);
+
+insert into payments values 
+(1, "CASH", 25000),
+(2, "CASH", 50000),
+(3, "UPI", 25000),
+(4, "CASH", 80000),
+(5, "UPI", 46000),
+(6, "UPI", 34000),
+(7, "CASH", 46000),
+(8, "UPI", 65000),
+(9, "CASH", 85000),
+(10, "UPI", 95000),
+(11, "UPI", 55000),
+(12, "UPI", 35000),
+(13, "CASH", 55000),
+(14, "UPI", 75000),
+(15, "UPI", 90000);
+
+select * from payments;
+
+-- Find the average amount for each payment type, print it in the descending order. 
+
+select payment_type, round(avg(amount),2) from payments
+group by payment_type
+order by avg(amount) desc;
+
+-- Find the average amount for each payment type, print it in the descending order. print first co;lumn name as "Payment" and for second "Average" 
+
+select payment_type as Payment, round(avg(amount),2) as Average from payments
+group by payment_type
+order by Average desc;
+
+
 -- print the least amount from each department 
+
+select payment_type as Payment, Min(amount) as Least from payments
+group by payment_type
+order by Least; 
+
+-- print the Highest amount from each department
+
+select payment_type as Payment, Max(amount) as Highest from payments
+group by payment_type
+order by Highest desc;
 
 select payment_type as payment, MIN(amount)as Highest from payments
 group by payment_type
 order by Average desc;
 
+select * from students;
+
 -- print all the students whose name start with "s".alter
 select s_name from students
-where s_name Like "s%"; 
+where s_name Like "S%"; 
+
+-- print all the students whose name end with "a"
+select s_name from students
+where s_name Like "%a";
 
 -- print all the students whose name start with "S" and end with "a".
 
 select s_name from students
-where s_name Like "s%a"; 
+where s_name Like "S%a"; 
 
+-- print all the students whose name start with "S" and end with "a"
 select s_name from students
 where s_name Like "%a";
 
 -- print all the students whose name contain "a" as second charecter
-
 select s_name from students
-where s_name Like "_a%" 
+where s_name Like "_a%";
+ 
+
+-- ================== Fourth_session_March_5 ==================
+
+use feb_batch;
+show tables; 
+select * from dim_customer;
+select * from dim_date;
+select * from dim_host;
+select * from dim_property;
+select * from students;
+select * from employee;
+
+-- How to insert the null values in the table
+
+insert into students values 
+(10, "jancy", Null),
+(11, "nancy", Null),
+(12, Null, 99),
+(13, Null, Null);
+
+
+-- print the all the entries without having name  
+select * from students
+where s_name is null;   
+
+-- print the all the entries without having name and marks
+
+select * from students;
+    
+
+-- print the all the entries without null values
+
+select * from students
+where s_name is not null;
+
+where s_name is null and marks is null;
+
+-- ===================Friday _session_March_6 ========================
+-- =========================== joins =======================================
+
+use feb_batch;
+show tables;
+
+select * from dim_customer;
+select * from dim_date;
+select * from dim_host;
+select * from dim_property;
+select * from fact_bookings;
+
+select  dh.Superhost_Flag, round(sum(fb.revenue),2) as Total_revenue from dim_host as dh
+join fact_bookings as fb on fb.Host_ID = dh.Host_ID
+group by dh.Superhost_Flag;
+
 
 
 
