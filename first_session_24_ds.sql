@@ -328,7 +328,99 @@ select  dh.Superhost_Flag, round(sum(fb.revenue),2) as Total_revenue from dim_ho
 join fact_bookings as fb on fb.Host_ID = dh.Host_ID
 group by dh.Superhost_Flag;
 
+-- ================= saturday_session_march_7 ============================== 
+use feb_batch;
+show tables;
+
+CREATE TABLE employees (
+
+    emp_id INT PRIMARY KEY,
+
+    emp_name VARCHAR(50),
+
+    dept_id INT,
+
+    salary INT
+
+);
+
+ CREATE TABLE departments (
+
+    dept_id INT PRIMARY KEY,
+
+    dept_name VARCHAR(50)
+
+);
+
+ INSERT INTO employees VALUES
+
+(1, 'Rahul', 101, 60000),
+
+(2, 'Priya', 102, 75000),
+
+(3, 'Amit', 103, 50000),
+
+(4, 'Neha', 101, 72000),
+
+(5, 'Arjun', NULL, 45000);
+
+ INSERT INTO departments VALUES
+
+(101, 'HR'),
+
+(102, 'Finance'),
+
+(104, 'Marketing');
+
+select *  from employees;
+select * from departments;
+
+--  Inner join returns matching data  points =========
+
+select e.emp_name, d.dept_name from employees e
+join departments d on d.dept_id = e.dept_id;
+
+--  Left  join returns all data from left table and matching data  from right table =========
+
+select e.emp_name, d.dept_name from employees e
+ left join departments d on d.dept_id = e.dept_id;
+
+--  Right  join returns all data from right table and matching data  from left table =========
+
+select e.emp_name, d.dept_name from employees e
+ right join departments d on d.dept_id = e.dept_id;
 
 
+--  Full outer  join returns all data from left table and matching data  from right table =========
+
+select * from employees e
+ left join departments d on d.dept_id = e.dept_id;
+
+union
+
+select * from employees e
+ right join departments d on d.dept_id = e.dept_id;
+ 
+ -- Cross join returns c- product. 
+select e.emp_name, d.dept_name from employees e
+ cross join departments d
+ Limit 10;
+ 
+ select *  from employees;
+select * from departments;
+
+select d.dept_name, sum(e.salary)  total_income from departments d
+join employees e on e.dept_id = d.dept_id
+group by d.dept_name;
+
+-- ques: find the average salary  for each department.
+
+
+
+select d.dept_name, round(avg(e.salary),2) avg_income from departments d
+join employees e on e.dept_id = d.dept_id
+group by d.dept_name
+having avg_income > 70000
+order by avg_income desc;  
 
 
